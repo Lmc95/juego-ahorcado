@@ -4,9 +4,8 @@ const animales = ['perro', 'gato', 'elefante', 'serpiente'];
 
 const tablero = document.getElementById('letras-tablero');
 const botones = document.querySelectorAll('.boton');
-const start = document.querySelector('.comenzar');
-const stop = document.querySelector('.detener');
-const retry = document.querySelector('.retry')
+const iniciar = document.querySelector('.comenzar');
+const reiniciar = document.querySelector('.reiniciar')
 
 // dibujo a mostrar en tablero
 const dibujo = document.querySelector('.dibujo');
@@ -20,14 +19,14 @@ const mostrarPalabra = document.querySelector('.palabra');
 let span = document.createElement('span');
 mostrarPalabra.appendChild(span);
 
-// Botones bloqueados hasta presionar "Start"
+// Botones bloqueados hasta presionar "Jugar/Iniciar"
 for (let i = 0; i < botones.length; i++) {
     botones[i].disabled = true;
 }
 let vidas = 6;
 let aciertos = [];
 let palabra = '';
-retry.disabled = true;
+reiniciar.disabled = true;
 
 // Da inicio al juego
 tablero.addEventListener('click', (e) => {
@@ -37,7 +36,7 @@ tablero.addEventListener('click', (e) => {
     
     // Se da comienzo al juego
     if (click.textContent == 'Jugar') {
-        start.disabled = true; // OFF Button
+        iniciar.disabled = true; // OFF Button
 
         // Se sortea la palabra secreta
         let sortear = Math.floor(Math.random() * animales.length);
@@ -106,9 +105,9 @@ botones.forEach(btn => {
         if (resultado == palabra && vidas > 0) {
             console.log('Ganaste!')
             buttonsOff();
-            retry.disabled = false;
+            reiniciar.disabled = false;
             // Evento que reinicia el juego
-            retry.addEventListener('click', () => { 
+            reiniciar.addEventListener('click', () => { 
                 // TABLERO DIBUJO
                 restart();
             })
@@ -118,9 +117,9 @@ botones.forEach(btn => {
             // Desactiva todos los botones
             buttonsOff();
             // Retry "Boton" que se activa al terminar el juego
-            retry.disabled = false;
+            reiniciar.disabled = false;
             // Evento que reinicia el juego
-            retry.addEventListener('click', () => {
+            reiniciar.addEventListener('click', () => {
                 // TABLERO DIBUJO
                 restart();
             })

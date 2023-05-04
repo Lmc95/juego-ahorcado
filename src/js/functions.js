@@ -4,8 +4,8 @@ function restart() {
     aciertos = [];
     resultado = '';
     vidas = 6;
-    start.disabled = false; // ON Button
-    retry.disabled = true;
+    iniciar.disabled = false; // ON Button
+    reiniciar.disabled = true;
     imagen.src = '/assets/images/ahorcado/vidas/6.png';
 }
 
