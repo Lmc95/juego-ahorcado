@@ -1,11 +1,38 @@
+// categorias
+let categorias = {
+    Animales: ["perro", "gato", "tigre", "elefante", "jirafa", "avestruz", "serpiente", "cebra", "rinoceronte", "ballena"],
+    Paises: ["portugal", "canada", "mexico", "brasil", "españa", "francia", "alemania", "italia", "china", "argentina"],
+    Colores: ["rojo", "verde", "azul", "amarillo", "morado", "naranja", "rosa", "negro", "blanco", "violeta"],
+    Deportes: ["futbol", "baloncesto", "tenis", "boxeo", "voleibol", "rugby", "golf", "natacion", "ciclismo", "atletismo"]
+}
+//console.log('categorias: ' + Object.keys(categorias).length)
 
-// COMIENZA EL JUEGO
-const animales = ['perro', 'gato', 'elefante', 'serpiente'];
-
-const tablero = document.getElementById('letras-tablero');
+const tablero = document.getElementById('letras-tablero'); // UNO
 const botones = document.querySelectorAll('.boton');
 const iniciar = document.querySelector('.comenzar');
 const reiniciar = document.querySelector('.reiniciar')
+const cerrar = document.querySelector('.cerrar');
+
+// Resultados final del juego: ganar o perder
+const resultadoJuego = document.querySelector('.resultado');
+const ganar = document.querySelector('.ganaste');
+const perder = document.querySelector('.perdiste');
+
+const palabraGanar = document.querySelector('.palabra-ganar');
+const palabraPerder = document.querySelector('.palabra-perder')
+let spanGanar = document.createElement('span');
+let spanPerder = document.createElement('span');
+palabraGanar.appendChild(spanGanar);
+palabraPerder.appendChild(spanPerder);
+
+// Tablero: categoria y vidas
+const infoTablero = document.querySelector('.info-tablero'); // DOS
+const categoria = document.querySelector('.categoria');
+const vidasInfo = document.querySelector('.vidas');
+let categoriaSpan = document.createElement('span');
+let vidasSpan = document.createElement('span');
+categoria.appendChild(categoriaSpan);
+vidasInfo.appendChild(vidasSpan);
 
 // dibujo a mostrar en tablero
 const dibujo = document.querySelector('.dibujo');
@@ -13,8 +40,7 @@ let imagen = document.createElement('img');
 imagen.src = '/assets/images/ahorcado/vidas/6.png';
 dibujo.appendChild(imagen)
 
-
-// palabra a mostrar en tablero
+// se agrega la palabra a mostrar en tablero
 const mostrarPalabra = document.querySelector('.palabra');
 let span = document.createElement('span');
 mostrarPalabra.appendChild(span);
@@ -23,26 +49,43 @@ mostrarPalabra.appendChild(span);
 for (let i = 0; i < botones.length; i++) {
     botones[i].disabled = true;
 }
+
+// variables del juego
+let width = window.innerWidth;
 let vidas = 6;
+let primerLetra = [];
 let aciertos = [];
 let palabra = '';
 reiniciar.disabled = true;
 
-// Da inicio al juego
+// Obtenemos el evento del "tablero"
 tablero.addEventListener('click', (e) => {
-    
     let click = e.target;
-    console.log(click);
-    
+    //console.log(click);
     // Se da comienzo al juego
     if (click.textContent == 'Jugar') {
+
+        if(width > 725) {
+            tablero.appendChild(infoTablero);
+            tablero.appendChild(mostrarPalabra);
+        }
+
         iniciar.disabled = true; // OFF Button
+        infoTablero.style.display = 'block';
+        mostrarPalabra.style.display = 'block';
 
-        // Se sortea la palabra secreta
-        let sortear = Math.floor(Math.random() * animales.length);
-        palabra = animales[sortear];
-        console.log(palabra)
+        let sortear = Math.floor(Math.random() * Object.keys(categorias).length)
+        let sorteoCategoria = Object.keys(categorias)[sortear];
+        categoriaSpan.textContent = sorteoCategoria;
 
+        let listaCategoria = categorias[sorteoCategoria];
+        let sortearLista = Math.floor(Math.random()*listaCategoria.length);
+        palabra = listaCategoria[sortearLista];
+        spanGanar.textContent = palabra.toUpperCase();
+        spanPerder.textContent = palabra.toUpperCase();
+        //console.log(listaCategoria) 
+        primerLetra.push(palabra.substring(0,1));
+        
         // Se activan todos los botones (letras)
         for (let i = 0; i < botones.length; i++) {
             botones[i].disabled = false;
@@ -50,89 +93,80 @@ tablero.addEventListener('click', (e) => {
 
         // Se muestra en "guiones" la palabra
         for (let i = 0; i < palabra.length; i++) {
-            span.textContent += '_ ';
+            if(i===0){
+                span.textContent = palabra.toUpperCase().substring(0,1);
+            }else {
+
+                span.textContent += '_ ';
+            }
         }
-
-        // Se da fin al juego presionando "End"
     }
-
 });
 
-// Verifica los botones y actualiza tablero
+// Verifica los botones y actualiza tablero (general)
 botones.forEach(btn => {
-    let resultado = '';
+    vidasSpan.textContent = '6';
     let letra = btn.textContent;
     letra = letra.toLowerCase();
-
+    
     btn.addEventListener('click', () => {
+        let resultado = '';
         btn.disabled = true;
         // Se actualiza el span a vacío
-        span.textContent = '';
 
-        for (let i = 0; i < palabra.length; i++) {
-            // Se toman los aciertos de letras
+        for (let i = 1; i < palabra.length; i++) {
+            // Se toman los aciertos de letras, ingorando la primer letra de "palabra".
             if (palabra[i] == letra) {
-                aciertos.push(palabra[i])
+                aciertos.push(palabra[i].toLowerCase())
             }
-
             // Por cada acierto se agrega la letra correspondiente o guion
             // Y se actualiza el "span" que se mostrara en pantalla
             if (aciertos.includes(palabra[i])) {
                 resultado += palabra[i];
-                span.textContent += palabra[i].toUpperCase();
             } else {
                 resultado += '_ ';
-                span.textContent += '_ ';
             }
         }
-        //console.log(resultado)
 
+        // Concatena la primer letra + el resto de aciertos
+        let palabraOculta = primerLetra.join('').trim() + resultado.trim();
+        span.textContent = palabraOculta.toUpperCase();
 
         // Vidas, Dibujo
-        if (palabra.includes(letra)) {
-            // mostrar resultado y tablero
+        if (palabra.substring(1).includes(letra)) {
+            // mostrar resultado y tablero (console)
             console.log(`Si esta la letra: ${letra.toUpperCase()} \nVidas: ${vidas}`);
         } else {
             // actualizar resultado, tablero y vidas
             vidas -= 1;
+            vidasSpan.textContent = `${vidas}`;
             console.log(`No esta la letra: ${letra.toUpperCase()} \nVidas: ${vidas}`);
-
+            // Dependiendo la cantidad de vidas muestra el img correspondiente
             vidasUsuario();
 
         }
 
-
-        if (resultado == palabra && vidas > 0) {
+        // Se verifica si el usuario GANO o PERDIO
+        if (palabraOculta == palabra && vidas > 0) {
             console.log('Ganaste!')
-            buttonsOff();
-            reiniciar.disabled = false;
+            ganarJuego(); // Muestra ventana "GANASTE"
+            buttonsOff(); // Desactiva todos los botones
+            reiniciar.disabled = false; // Se desactiva el boton "Volver a jugar"
             // Evento que reinicia el juego
             reiniciar.addEventListener('click', () => { 
-                // TABLERO DIBUJO
                 restart();
             })
 
         } else if (vidas === 0) {
             console.log('Perdiste!')
-            // Desactiva todos los botones
-            buttonsOff();
-            // Retry "Boton" que se activa al terminar el juego
-            reiniciar.disabled = false;
+            perderJuego(); // Muestra ventana "PERDISTE"
+            buttonsOff(); // Desactiva todos los botones
+            reiniciar.disabled = false; // Se desactiva el boton "Volver a jugar"
             // Evento que reinicia el juego
             reiniciar.addEventListener('click', () => {
-                // TABLERO DIBUJO
                 restart();
             })
         }
 
-
     })
 })
-
-
-    
-
-
-
-
-

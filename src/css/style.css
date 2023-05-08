@@ -34,13 +34,38 @@
 
 .palabra {
     text-align: center;
-    padding-top: 10px;
+    padding-top: 5px;
+    display: none;
 }
 .palabra span {
     font-size: 1.5rem;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.75);
     letter-spacing: 3px;
+}
+
+.info-tablero {
+    display: none;
+    margin: 15px 0 5px;
+}
+.contenido-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.info-tablero div {
+    margin: 0 15px;
+}
+.categoria p, .vidas p {
+    margin-top: 20px;
+}
+.categoria span, .vidas span {
+    color: rgb(0, 150, 255);
+    font-size: 1.05rem;
+    font-weight: 500;
 }
 
 
@@ -50,21 +75,25 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 30px;
+    position: relative;
+    z-index: 500;
+    border-radius: 10px;
 }
 
 .menu {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 0 10px 10px;
 }
 .menu button {
     border: none;
     border-radius: 5px;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
     padding: 5px 20px;
-    background-color: rgba(0, 195, 255, 0.2);
+    background-color: rgba(0, 195, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.25);
     font-weight: 500;
 }
@@ -88,10 +117,65 @@
     font-weight: 500;
     width: 40px;
     height: 40px;
-    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     margin: 5px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
     border-radius: 50%;
+    background-color: rgb(235, 235, 235);
+}
+
+/* RESULTADO FINAL (GANAR O PERDER) */
+.resultado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(230, 230, 230);
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 96%;
+    height: 102%;
+    position: absolute;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.ganaste {
+    position: relative;
+    z-index: 1001;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.perdiste {
+    position: relative;
+    z-index: 1001;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+.ganaste p, .perdiste p {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+.palabra-ganar span, .palabra-perder span {
+    color: rgb(0, 150, 255);
+}
+.cerrar {
+    position: absolute;
+    z-index: 1010;
+    top: 0;
+    right: 0;
+    border: none;
+    background: none;
+    color: red;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 5px;
 }
 
 
@@ -107,6 +191,15 @@ footer {
 
 
 /* MEDIA QUERIES */
+@media screen and (max-width: 270px) {
+    .menu {
+        flex-direction: column;
+    }
+    .menu button {
+        margin: 0 0 10px;
+        width: 100%;
+    }
+}
 @media screen and (min-width: 725px) {
     .contenedor {
         width: 100%;
@@ -128,6 +221,13 @@ footer {
     .dibujo img {
         width: 175px;
     }
+    .palabra {
+        width: 90%;
+        text-align: center;
+        padding: 10px 0;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+    }
     .palabra span {
         font-size: 2rem;
         letter-spacing: 5px;
@@ -136,8 +236,19 @@ footer {
         width: 525px;
         height: 400px;
         border-radius: 10px;
-        background-color: rgba(238, 238, 238, 0.5);
     }
+    .info-tablero {
+        width: 100%;
+        text-align: left;
+    }
+    .contenido-info {
+        font-size: 1.25rem;
+    }
+    .contenido-info span {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+    
 }
 
 @media screen and (min-width: 925px) {

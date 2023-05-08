@@ -11,7 +11,7 @@
 </head>
 <body>
     
-    <div class="contenedor">
+    <div class="contenedor container-fluid">
 
         <h2>Juego - El Ahorcado</h2>
 
@@ -23,6 +23,18 @@
                 </div>
                 <div class="palabra">
                     <!-- span -->
+                </div>
+                <div class="info-tablero">
+                    <div class="contenido-info">
+                        <div class="cont-categoria">
+                            <!-- Categoria -->
+                            <p class="categoria">Categoria: </p>
+                        </div>
+                        <div class="cont-vidas">
+                            <p class="vidas">Vidas: </p>
+                            <!-- Vidas -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -62,6 +74,17 @@
                     <button class="boton">X</button>
                     <button class="boton">Y</button>
                     <button class="boton">Z</button>
+                </div>
+                <div class="resultado">
+                    <button class="cerrar">X</button>
+                    <div class="ganaste">
+                        <p>GANASTE!!!</p>
+                        <p class="palabra-ganar">La palabra era: </p>
+                    </div>
+                    <div class="perdiste">
+                        <p>PERDISTE!</p>
+                        <p class="palabra-perder">La palabra era: </p>
+                    </div>
                 </div>
             </div>
         </div>
