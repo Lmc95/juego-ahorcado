@@ -1,6 +1,7 @@
 // FUNCIONES
 // Reinicia el juego (variables)
 function restart() {
+    click = document.querySelector('.comenzar');
     vidasSpan.textContent = '6';
     infoTablero.style.display = 'none';
     mostrarPalabra.style.display = 'none';

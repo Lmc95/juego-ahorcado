@@ -56,11 +56,12 @@ let vidas = 6;
 let primerLetra = [];
 let aciertos = [];
 let palabra = '';
+let click = '';
 reiniciar.disabled = true;
 
 // Obtenemos el evento del "tablero"
 tablero.addEventListener('click', (e) => {
-    let click = e.target;
+    click = e.target;
     //console.log(click);
     // Se da comienzo al juego
     if (click.textContent == 'Jugar') {
